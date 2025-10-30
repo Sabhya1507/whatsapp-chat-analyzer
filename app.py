@@ -8,7 +8,8 @@
 # 4. Response energy (timing analysis)
 # 5. Style profiling (sentence, vocab, punctuation)
 # 6. Politeness & directness analysis
-# 7. Summary insights
+# 7. Keyword extraction (TF-IDF based)
+# 8. Summary insights
 # ============================================================
 
 import streamlit as st
@@ -20,6 +21,7 @@ from datetime import datetime
 from textblob import TextBlob
 import matplotlib.pyplot as plt
 import nltk
+from sklearn.feature_extraction.text import TfidfVectorizer  # <-- NEW for keyword extraction
 nltk.download('punkt')
 
 # ============================================================
@@ -223,6 +225,30 @@ if uploaded_file is not None:
         polite_stats = df.groupby('sender')['message'].apply(politeness_score)
         st.dataframe(pd.DataFrame(polite_stats.tolist(), index=polite_stats.index))
         st.caption("Higher politeness → more courteous tone; higher directness → more assertive tone.")
+
+        # ============================================================
+        # 🔑 KEYWORD EXTRACTION (TF-IDF)
+        # ============================================================
+        st.header("🔑 Keyword Extraction (TF-IDF Based)")
+        st.markdown("Shows top keywords used by each participant, reflecting their main conversation themes.")
+
+        # Prepare TF-IDF per participant
+        tfidf = TfidfVectorizer(max_features=50, stop_words='english')
+        sender_keywords = {}
+
+        for sender, messages in df.groupby('sender')['clean_text']:
+            texts = messages.tolist()
+            if len(texts) < 3:
+                continue
+            X = tfidf.fit_transform(texts)
+            mean_tfidf = np.asarray(X.mean(axis=0)).flatten()
+            terms = tfidf.get_feature_names_out()
+            top_indices = mean_tfidf.argsort()[::-1][:10]
+            sender_keywords[sender] = [terms[i] for i in top_indices]
+
+        keyword_df = pd.DataFrame(dict([(k, pd.Series(v)) for k, v in sender_keywords.items()]))
+        st.dataframe(keyword_df)
+        st.caption("Top 10 keywords per participant based on TF-IDF importance.")
 
         # ============================================================
         # 📋 SUMMARY INSIGHTS
