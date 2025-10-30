@@ -39,3 +39,26 @@ Clone this repository and install the dependencies:
 git clone https://github.com/sabhya1507/whatsapp-chat-analyzer.git
 cd whatsapp-chat-analyzer
 pip install -r requirements.txt
+
+```
+
+## How to run:
+
+Either save your own exported chat you wish to analyze to a local folder of your liking
+or copy the sample_chat.txt file into a txt file of your own and save.
+
+```bash
+streamlit run app.py
+```
+
+When prompted, upload the text file on the browser window.
+
+## Example Outputs:
+
+You’ll get insights like:
+
+Average sentiment per participant
+Most used emojis
+Talk balance and dominance ratio
+Average response time
+Linguistic style and politeness measures
