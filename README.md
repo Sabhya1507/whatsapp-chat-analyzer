@@ -58,7 +58,11 @@ When prompted, upload the text file on the browser window.
 You’ll get insights like:
 
 Average sentiment per participant
+
 Most used emojis
+
 Talk balance and dominance ratio
+
 Average response time
+
 Linguistic style and politeness measures
