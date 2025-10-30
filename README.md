@@ -18,6 +18,7 @@ Talk balance / dominance index
 Response energy (average reply time)  
 Style profiling (sentence length, lexical diversity, pronoun use)  
 Politeness & directness metrics  
+Keyword Extraction
 Interactive charts via Plotly  
 
 ---
@@ -66,3 +67,5 @@ Talk balance and dominance ratio
 Average response time
 
 Linguistic style and politeness measures
+
+Most frequently used words (Keywords)
